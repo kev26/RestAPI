@@ -1,15 +1,16 @@
 from rest_framework import serializers
 from .models import User, Apartment, Transaction
+from rest_framework.validators import UniqueTogetherValidator
+from djoser.serializers import UserCreateSerializer
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    apartment = serializers.HyperlinkedRelatedField(
-        many=True, view_name='apartment-detail', read_only=True)
+class UserSerializer(serializers.ModelSerializer):
+    apartment = serializers.StringRelatedField(
+        many=True, required=False)
 
     class Meta:
         model = User
         fields = [
-            'url',
             'id',
             'username',
             'email',
@@ -18,13 +19,13 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class ApartmentSerializer(serializers.HyperlinkedModelSerializer):
+class ApartmentSerializer(serializers.ModelSerializer):
     seller = serializers.ReadOnlyField(source='seller.username')
 
     class Meta:
         model = Apartment
         fields = [
-            'url',
+            'id',
             'seller',
             'address',
             'arena',
@@ -34,15 +35,15 @@ class ApartmentSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class TransactionSerializer(serializers.HyperlinkedModelSerializer):
+class TransactionSerializer(serializers.ModelSerializer):
+    # Show name buyer
     buyer = serializers.ReadOnlyField(source='buyer.username')
-    apartment_sold = serializers.HyperlinkedRelatedField(view_name='sold-detail', read_only=True)
+
     class Meta:
         model = Transaction
         fields = [
-            'id',
-            'buyer',
-            'apartment_sold',
-            'apartment',
+            'id', 
+            'buyer', 
+            'apartment', 
             'timestamp'
         ]

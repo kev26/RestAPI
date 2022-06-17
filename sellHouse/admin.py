@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Apartment, Transaction
+from .models import Apartment, Transaction, User
 
 
 # Register your models here.
@@ -10,7 +10,9 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Apartment)
 class ApartmentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'seller', 'address', 'arena', 'price', 'description')
+    list_display = ('id', 'seller', 'address', 'arena',
+                    'price', 'description', 'issold')
+    list_filter = ('issold',)
 
 
 @admin.register(Transaction)
