@@ -1,10 +1,7 @@
-import json
-from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import viewsets, permissions
 from sellHouse.permissions import IsOwnerApartmentOrReadOnly, IsOwnerUserOrReadOnly
 from rest_framework.generics import CreateAPIView
-from django.contrib.auth.hashers import make_password  # Hash password
 
 from .models import User, Apartment, Transaction
 from .serializers import UserSerializer, ApartmentSerializer, TransactionSerializer
