@@ -1,9 +1,10 @@
 from rest_framework.response import Response
 from rest_framework import viewsets, permissions
+# from example.sellHouse.filters import ApartmentFilter
 from sellHouse.permissions import IsOwnerApartmentOrReadOnly, IsOwnerUserOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
-# from .filters import ApartmentFilter
+from .filters import ApartmentFilter
 from rest_framework.decorators import action
 
 from .models import User, Apartment, Transaction
@@ -16,7 +17,8 @@ class UserViewSet(viewsets.ModelViewSet):
     # Set permission for only user authenticated can see users list and only user itself can edit.
     permission_classes = [
         permissions.IsAuthenticated, IsOwnerUserOrReadOnly]
-    # filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['username']
 
 
 class ApartmentViewSet(viewsets.ModelViewSet):
@@ -31,10 +33,9 @@ class ApartmentViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter,
                        DjangoFilterBackend, filters.OrderingFilter]
     # Add search by 'address', filter by 'category', 'district' and ordering by 'price'
+    filterset_class = ApartmentFilter
     search_fields = ['address']
-    filterset_fields = ['category', 'district']
     ordering_fields = ('price',)
-    # filter_class = ApartmentFilter
 
     # fill current username when create new apartment
     # Use perform_create inherit from CreateModelMixin
@@ -73,3 +74,5 @@ class TransactionViewSet(viewsets.ModelViewSet):
         transaction = serializer.save(buyer=self.request.user)
         transaction.apartment.issold = True
         transaction.apartment.save()
+
+

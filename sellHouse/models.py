@@ -6,6 +6,22 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
 
+DISTRICT_CHOICES = [
+    ('Thanh Khê', 'Thanh Khê'),
+    ('Hải Châu', 'Hải Châu'),
+    ('Liên Chiểu', 'Liên Chiểu'),
+    ('Sơn Trà', 'Sơn Trà'),
+    ('Ngũ Hành Sơn', 'Ngũ Hành Sơn'),
+    ('Cẩm Lệ', 'Cẩm Lệ'),
+    ('Hòa Vang', 'Hòa Vang'),
+    ('Hoàng Sa', 'Hoàng Sa')
+]
+
+CATEGORIES_CHOICES = [
+    ('rent', 'rent'),
+    ('sale', 'sale')
+]
+
 
 # Create your models here.
 class User(AbstractUser):
@@ -19,22 +35,6 @@ class User(AbstractUser):
 
 
 class Apartment(models.Model):
-
-    DISTRICT_CHOICES = [
-        ('Thanh Khê', 'Thanh Khê'),
-        ('Hải Châu', 'Hải Châu'),
-        ('Liên Chiểu', 'Liên Chiểu'),
-        ('Sơn Trà', 'Sơn Trà'),
-        ('Ngũ Hành Sơn', 'Ngũ Hành Sơn'),
-        ('Cẩm Lệ', 'Cẩm Lệ'),
-        ('Hòa Vang', 'Hòa Vang'),
-        ('Hoàng Sa', 'Hoàng Sa')
-    ]
-
-    CATEGORIES_CHOICES = [
-        ('rent', 'rent'),
-        ('sale', 'sale')
-    ]
     
     category = models.CharField(max_length=5, choices=CATEGORIES_CHOICES, blank=False)
     address = models.CharField(max_length=50, unique=True, blank=False)
@@ -51,7 +51,6 @@ class Apartment(models.Model):
         return f"{self.address}, {self.arena}m2"
 
 
-
 class Transaction(models.Model):
     buyer = models.ForeignKey(
         'User', related_name='transaction', on_delete=models.CASCADE)
@@ -59,5 +58,3 @@ class Transaction(models.Model):
         'Apartment', related_name='sold', on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    # def __str__(self):
-    #     return f"{self.buyer} {self.apartment}"
