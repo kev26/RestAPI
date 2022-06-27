@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'sellHouse',
     'drf_spectacular',
     'djoser',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -144,7 +145,7 @@ if DEBUG:
 
 
 REST_FRAMEWORK = {
-    'DATETIME_FORMAT': '%Y-%m-%d %H:%M:%S',
+    'DATETIME_FORMAT': '%Y-%m-%d, %H:%M:%S',
     # API Documentation
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 
@@ -163,15 +164,27 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = 'sellHouse.User'
 
 DJOSER = {
-    "LOGIN_FIELD": "username",
+    "LOGIN_FIELD": "email",
     "USER_CREATE_PASSWORD_RETYPE": True,
+    "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
+    "SEND_CONFIRMATION_EMAIL": True,
     "SET_USERNAME_RETYPE": True,
     "SET_PASSWORD_RETYPE": True,
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
     'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': 'activate/{uid}/{token}',
+    # "SEND_ACTIVATION_EMAIL": True,
+    "SOCIAL_AUTH_TOKEN_STRATEGY": "djoser.social.token.jwt.TokenStrategy",
+    "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": [
+        "your redirect url",
+        "your redirect url",
+    ],
+    # Custom Serializer
     'SERIALIZERS': {
+        # user_create used UserCreateSerializer class in sellHouse app
         "user_create": "sellHouse.serializers.UserCreateSerializer",  # custom serializer
+        # Others used djoser serializer
         "user": "djoser.serializers.UserSerializer",
         "current_user": "djoser.serializers.UserSerializer",
         "user_delete": "djoser.serializers.UserSerializer",
@@ -179,10 +192,9 @@ DJOSER = {
 }
 
 
-# EMAIL CONFIG
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-# EMAIL_HOST = "localhost"
-# EMAIL_PORT = "1025"
-# EMAIL_HOST_USER = "kevfortest@gmail.com"
-# EMAIL_HOST_PASSWORD = "negvdxzmhmfvxvig"
-# EMAIL_USE_TLS = True
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = "587"
+EMAIL_HOST_USER = "kevfortest@gmail.com"
+EMAIL_HOST_PASSWORD = "evtnmfcmcrlgdqha"
+EMAIL_USE_TLS = True

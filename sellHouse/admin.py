@@ -10,7 +10,7 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Apartment)
 class ApartmentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'seller', 'address', 'arena',
+    list_display = ('id', 'category', 'seller', 'address', 'district', 'arena',
                     'price', 'description', 'issold')
     list_filter = ('issold',)
 

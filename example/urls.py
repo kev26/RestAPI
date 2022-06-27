@@ -28,9 +28,9 @@ from rest_framework.urlpatterns import format_suffix_patterns
 # Create default router and register our viewset
 router = DefaultRouter()
 router.register(r'users', views.UserViewSet, basename='user')
-router.register(r'apartments', views.ApartmentViewset, basename='apartment')
-router.register(r'solds', views.SoldViewSet, basename='sold')
-router.register(r'transactions', views.TransactionViewset,
+router.register(r'apartments', views.ApartmentViewSet, basename='apartment')
+# router.register(r'solds', views.UserViewSet, basename='sold')
+router.register(r'transactions', views.TransactionViewSet,
                 basename='transaction')
 
 urlpatterns = [

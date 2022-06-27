@@ -12,8 +12,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id',
-            'username',
             'email',
+            'username',
             'phone',
             'apartment'
         ]
@@ -26,12 +26,15 @@ class ApartmentSerializer(serializers.ModelSerializer):
         model = Apartment
         fields = [
             'id',
-            'seller',
+            'category',
             'address',
+            'district',
             'arena',
             'price',
             'description',
-            'timestamp'
+            'seller',
+            'timestamp',
+            'issold'
         ]
 
 
